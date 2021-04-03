@@ -1,12 +1,18 @@
 import React from "react";
-import { Link, BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {
+  NavLink,
+  BrowserRouter as Router,
+  Switch,
+  Route,
+} from "react-router-dom";
 import styled from "@emotion/styled";
 import Acasa from "./components/Acasa";
 import Contact from "./components/Contact";
 import DespreNoi from "./components/DespreNoi";
 import WebDesign from "./components/WebDesign";
 import WebHosting from "./components/WebHosting";
-import { darkBlack } from "./utils";
+import { AnimatePresence } from "framer-motion";
+import { yellow, white } from "./utils";
 
 const App: React.FC = () => {
   return (
@@ -14,48 +20,52 @@ const App: React.FC = () => {
       <Nav>
         <Ul>
           <Img>
-            <Link to="/">
+            <NavLink to="/">
               <img
                 src="/logo_black.png"
                 alt="logo"
                 style={{ width: "6rem", height: "100%" }}
               />
-            </Link>
+            </NavLink>
           </Img>
           <LinkUl>
             <Li>
-              <Link to="/despre-noi">Despre noi</Link>
+              <NavLink exact to="/" activeClassName="active">
+                Acasa
+              </NavLink>
             </Li>
             <Li>
-              <Link to="/web-design">Web Design</Link>
+              <NavLink to="/despre-noi" activeClassName="active">
+                Despre noi
+              </NavLink>
             </Li>
             <Li>
-              <Link to="/web-hosting">Web Hosting</Link>
+              <NavLink to="/web-design" activeClassName="active">
+                Web Design
+              </NavLink>
             </Li>
             <Li>
-              <Link to="/contact">Contact</Link>
+              <NavLink to="/web-hosting" activeClassName="active">
+                Web Hosting
+              </NavLink>
+            </Li>
+            <Li>
+              <NavLink to="/contact" activeClassName="active">
+                Contact
+              </NavLink>
             </Li>
           </LinkUl>
         </Ul>
       </Nav>
-
-      <Switch>
-        <Route exact path="/">
-          <Acasa />
-        </Route>
-        <Route path="/despre-noi">
-          <DespreNoi />
-        </Route>
-        <Route path="/web-design">
-          <WebDesign />
-        </Route>
-        <Route path="/web-hosting">
-          <WebHosting />
-        </Route>
-        <Route path="/contact">
-          <Contact />
-        </Route>
-      </Switch>
+      <AnimatePresence>
+        <Switch>
+          <Route exact path="/" component={Acasa} />
+          <Route path="/despre-noi" component={DespreNoi} />
+          <Route path="/web-design" component={WebDesign} />
+          <Route path="/web-hosting" component={WebHosting} />
+          <Route path="/contact" component={Contact} />
+        </Switch>
+      </AnimatePresence>
     </Router>
   );
 };
@@ -82,22 +92,30 @@ const Li = styled.li`
   :not(:last-child) {
     margin-right: 2rem;
   }
+
   a {
     text-decoration: none;
-    color: #ffffff;
+    color: ${white};
     font-weight: 200;
   }
 
   a:hover {
     transition: 0.3s;
-    color: #ffdf6c;
+    color: ${yellow};
+  }
+
+  .active {
+    color: ${yellow};
   }
 `;
 
 const Nav = styled.div`
-  width: 100%;
+  z-index: 100;
+  position: relative;
+  margin: auto;
+  width: 75rem;
   height: 5rem;
-  background-color: ${darkBlack};
+  background-color: transparent;
 `;
 
 const Img = styled.div`
